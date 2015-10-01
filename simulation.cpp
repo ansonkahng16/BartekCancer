@@ -30,18 +30,7 @@ char *NUM ; // name given as 1st argument from the command line
 typedef unsigned int DWORD ;
 int memory_taken() // return memory available in MB
 {
-  long long int rss = 0L;
-	FILE* fp = NULL;
-	if ( (fp = fopen( "/proc/self/statm", "r" )) == NULL )
-		return (size_t)0L;		/* Can't open? */
-	if ( fscanf( fp, "%*s%ld", &rss ) != 1 )
-	{
-		fclose( fp );
-		return (size_t)0L;		/* Can't read? */
-	}
-	fclose( fp );
-	long long int mem=((size_t)rss * (size_t)sysconf( _SC_PAGESIZE)) ;
-	return (int) (mem/(1<<20));
+  return 10000000;
 }
 #include <sys/sysinfo.h>
 unsigned int freemem() // returns available memory in MB
@@ -53,12 +42,7 @@ unsigned int freemem() // returns available memory in MB
 #else
 #include <windows.h>
 #include <psapi.h>
-int memory_taken() // return memory available in MB
-{
-	PROCESS_MEMORY_COUNTERS info;
-	GetProcessMemoryInfo( GetCurrentProcess( ), &info, sizeof(info) );
-	return (int) (info.WorkingSetSize/(1<<20));
-}
+int memory_taken() { return 1000000 ; }
 #endif
 
 void err(char *reason)
