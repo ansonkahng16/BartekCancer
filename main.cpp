@@ -26,6 +26,7 @@ extern float time_to_treat ;
 int sample=0 ;
 
 void save_positions(char *name, float dz) 
+// save pmutation and drivers
 {
   FILE *data=fopen(name,"w") ;
   for (int i=0;i<cells.size();i++) {

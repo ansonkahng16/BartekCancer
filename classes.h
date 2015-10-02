@@ -251,6 +251,7 @@ const unsigned int DRIVER_PM = 1<<30 ;
 const unsigned int L_PM = (1<<30) - 1 ; 
 
 struct Genotype {
+  // what is sequence??
   vector <unsigned int> sequence ;
   BYTE no_resistant, no_drivers ;
   float death[2], growth[2], m[2] ; // m = migration probability before/after treatment

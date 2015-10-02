@@ -383,6 +383,13 @@ void quicksort2(float *n, int *nums, int lower, int upper)
 
 void save_data()
 {
+  /* 
+    ints i and j in for loops later, ntot = number of cells, nsurface?
+    r_avg, r_avg2 wtf
+    num on surface, num resistant on surface
+    drv = drivers
+    pms = ?
+  */
   int i,j,ntot=cells.size(), nsurf=0 ;
   double raver=0, raver2=0 ;
   int no_on_surface=0 ;
@@ -391,6 +398,13 @@ void save_data()
   double drv_per_cell=0,drv_per_cell_surf=0, pms_per_cell=0 ;
   double aver_growth_rate=0,av_migr=0 ;
 
+  /*
+    L = length of genotype
+    L_PM = declared in classes, const. unsigned integer 1<<30-1, list of all 1's; AND-ing x with this returns x
+    adds genotypes[i]->number to those with snp = 1
+      genotype number = number of cells of this genotype total/on the surface
+    snps_det = ?? death?
+  */
   int *snp_no=new int[L] ; // array of SNPs abundances
   for (i=0;i<L;i++) { snp_no[i]=0 ; }
   for (i=0;i<genotypes.size();i++) {
@@ -398,13 +412,16 @@ void save_data()
       for (int j=0;j<genotypes[i]->sequence.size();j++) snp_no[((genotypes[i]->sequence[j])&L_PM)]+=genotypes[i]->number ;      
     }
   }  
+  // if too messed up, dead
   int snps_det=0 ;
   for (i=0;i<L;i++) if (snp_no[i]>cutoff*ntot) snps_det++ ;
   delete [] snp_no ;
 
   for (i=0;i<ntot;i++) {
     Lesion *ll=lesions[cells[i].lesion] ;
+    // what is wx
     int wx=ll->wx ; 
+    // comparing x to everything??????
     double rr=SQR(cells[i].x+ll->r.x)+SQR(cells[i].y+ll->r.x)+SQR(cells[i].z+ll->r.x) ;
     raver+=sqrt(rr) ; raver2+=rr ;
 #ifdef PUSHING
@@ -418,6 +435,7 @@ void save_data()
     int is_on_surface=(free_sites>0?1:0) ;    
     pms_per_cell+=g->sequence.size() ;
 
+    // very relevant to us -- change this??
     if (g->no_resistant) {
       no_resistant++ ; 
       if (is_on_surface) no_resistant_surf++ ;
